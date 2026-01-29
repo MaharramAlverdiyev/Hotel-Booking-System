@@ -1,4 +1,4 @@
-import { Country } from "../types/country";
+import type { Country } from "../types/country";
 
 const countries: Country[] = [
   { id: 1, name: "Turkey" },

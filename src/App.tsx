@@ -1,8 +1,14 @@
 import React from 'react'
+import { Booking } from './pages/Booking'
+import { HotelsDaily } from './pages/HotelsDaily'
+
 
 const App = () => {
   return (
-    <div>App</div>
+    <>
+      <Booking />
+      <HotelsDaily/>
+    </>
   )
 }
 
