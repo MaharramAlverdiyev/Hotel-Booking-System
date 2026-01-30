@@ -1,38 +1,34 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 
-export type BookingData = {
+interface BookingData {
     citizenship?: { id: number; name: string };
     country?: { id: number; name: string };
     board?: { code: string; name: string };
-    startDate: string;
-    endDate: string;
-};
+    startDate?: string;
+    endDate?: string;
+}
 
-type BookingState = {
+interface BookingState {
     booking: BookingData | null;
-};
+}
 
 const initialState: BookingState = {
-    booking: null,
+    booking: null, 
 };
 
 const bookingSlice = createSlice({
     name: "booking",
     initialState,
     reducers: {
-        saveBooking(state, action: PayloadAction<BookingData>) {
+        saveBooking: (state, action: PayloadAction<BookingData>) => {
             state.booking = action.payload;
-            localStorage.setItem("bookingData", JSON.stringify(action.payload));
         },
-        loadBookingFromStorage(state) {
-            const data = localStorage.getItem("bookingData");
-            if (data) {
-                state.booking = JSON.parse(data);
-            }
+        clearBooking: (state) => {
+            state.booking = null;
         },
     },
 });
 
-export const { saveBooking, loadBookingFromStorage } = bookingSlice.actions;
+export const { saveBooking, clearBooking } = bookingSlice.actions;
 export default bookingSlice.reducer;

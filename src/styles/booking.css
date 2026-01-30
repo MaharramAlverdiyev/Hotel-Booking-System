@@ -44,3 +44,8 @@
     font-size: 18px;
     border-radius: 10px;
 }
+.error {
+    border: 1px solid red;
+    box-shadow: 4px;
+    color: red;
+}

@@ -1,6 +1,7 @@
 import React from 'react'
 import  Booking  from './pages/Booking'
 import HotelsDaily from './pages/HotelsDaily'
+import FinallyBooking from './pages/FinallyBooking'
 
 
 
@@ -9,6 +10,7 @@ const App = () => {
     <>
       <Booking />
       <HotelsDaily/>
+      <FinallyBooking/>
     </>
   )
 }
