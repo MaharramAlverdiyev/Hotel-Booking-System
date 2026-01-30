@@ -1,9 +1,40 @@
-import React from "react";
 import { useSelector } from "react-redux";
 
-const FinallyBooking: React.FC = () => {
-    const booking = useSelector((state: any) => state.booking.booking);
-    const hotelSelections = useSelector((state: any) => state.hotelsDaily?.selections || []);
+interface HotelType {
+    id: number;
+    name: string;
+    price: number;
+}
+
+interface MealType {
+    id: number;
+    name: string;
+    price: number;
+}
+
+interface DaySelection {
+    date: string;
+    hotel?: HotelType;
+    lunch?: MealType;
+    dinner?: MealType;
+}
+
+interface Booking {
+    citizenship?: { name: string };
+    country?: { name: string };
+    startDate?: string;
+    endDate?: string;
+    board?: { name: string };
+}
+
+interface RootState {
+    booking: { booking: Booking | null };
+    hotelsDaily?: { selections: DaySelection[] };
+}
+
+const FinallyBooking = () => {
+    const booking = useSelector((state: RootState) => state.booking.booking);
+    const hotelSelections = useSelector((state: RootState) => state.hotelsDaily?.selections || []);
 
     if (!booking) return null;
 
@@ -36,7 +67,7 @@ const FinallyBooking: React.FC = () => {
                         padding: 10
                     }}
                 >
-                    {hotelSelections.map((sel, i) => {
+                    {hotelSelections.map((sel: DaySelection, i: number) => {
                         const hotelPrice = sel.hotel?.price || 0;
                         const mealPrice = (sel.lunch?.price || 0) + (sel.dinner?.price || 0);
 

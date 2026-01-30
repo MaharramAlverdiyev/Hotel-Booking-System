@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { saveHotelSelection } from "../store/hotelsDailySlice";
 import hotelsData from "../data/hotels.json";
 import mealsData from "../data/meals.json";
-import "../styles/hotelsdaily.css"
+import "../styles/hotelsdaily.css";
 
 interface DaySelection {
     date: string;
@@ -13,9 +13,38 @@ interface DaySelection {
     activeMeal?: "lunch" | "dinner";
 }
 
-const HotelsDaily: React.FC = () => {
+interface HotelType {
+    id: number;
+    name: string;
+    price: number;
+}
+
+interface MealType {
+    id: number;
+    name: string;
+    price: number;
+}
+
+interface Booking {
+    startDate: string;
+    endDate: string;
+    country?: {
+        name: string;
+    };
+    board?: {
+        code: string;
+    };
+}
+
+interface RootState {
+    booking: {
+        booking: Booking | null;
+    };
+}
+
+const HotelsDaily = () => {
     const dispatch = useDispatch();
-    const booking = useSelector((state: any) => state.booking.booking);
+    const booking = useSelector((state: RootState) => state.booking.booking);
 
     const [selections, setSelections] = useState<DaySelection[]>([]);
 
@@ -37,7 +66,7 @@ const HotelsDaily: React.FC = () => {
         setSelections(dates.map(date => ({ date, hotelId: "", lunchId: "", dinnerId: "" })));
     }, [booking]);
 
-    if (!booking) return;
+    if (!booking) return null;
 
     const { country, board } = booking;
     const boardCode = board?.code;
@@ -45,35 +74,44 @@ const HotelsDaily: React.FC = () => {
 
     if (!countryName || !boardCode) return <p>Loading...</p>;
 
-    const availableHotels = hotelsData[countryName] || [];
-    const countryMeals = mealsData[countryName];
+    const availableHotels: HotelType[] = (hotelsData as Record<string, HotelType[]>)[countryName] || [];
+    const countryMeals: { lunch: MealType[]; dinner: MealType[] } | undefined =
+        (mealsData as Record<string, { lunch: MealType[]; dinner: MealType[] }>)[countryName];
 
     const handleHotelChange = (index: number, value: number) => {
-        const newSel = [...selections];
-        newSel[index].hotelId = value;
-        setSelections(newSel);
+        setSelections(prev =>
+            prev.map((sel, i) => (i === index ? { ...sel, hotelId: value } : sel))
+        );
     };
 
     const handleLunchChange = (index: number, value: number) => {
-        const newSel = [...selections];
-        newSel[index].lunchId = value;
-        if (boardCode === "HB" && value) {
-            newSel[index].dinnerId = "";
-            newSel[index].activeMeal = "lunch";
-        }
-        if (!value) newSel[index].activeMeal = undefined;
-        setSelections(newSel);
+        setSelections(prev =>
+            prev.map((sel, i) =>
+                i === index
+                    ? {
+                        ...sel,
+                        lunchId: value,
+                        dinnerId: value && boardCode === "HB" ? "" : sel.dinnerId,
+                        activeMeal: value ? "lunch" : undefined,
+                    }
+                    : sel
+            )
+        );
     };
 
     const handleDinnerChange = (index: number, value: number) => {
-        const newSel = [...selections];
-        newSel[index].dinnerId = value;
-        if (boardCode === "HB" && value) {
-            newSel[index].lunchId = "";
-            newSel[index].activeMeal = "dinner";
-        }
-        if (!value) newSel[index].activeMeal = undefined;
-        setSelections(newSel);
+        setSelections(prev =>
+            prev.map((sel, i) =>
+                i === index
+                    ? {
+                        ...sel,
+                        dinnerId: value,
+                        lunchId: value && boardCode === "HB" ? "" : sel.lunchId,
+                        activeMeal: value ? "dinner" : undefined,
+                    }
+                    : sel
+            )
+        );
     };
 
     const handleSave = () => {
@@ -172,7 +210,6 @@ const HotelsDaily: React.FC = () => {
                         })}
                     </tbody>
                 </table>
-
             </div>
             <button onClick={handleSave} className="buttonn">
                 Yadda saxla
