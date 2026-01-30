@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../styles/booking.css"
 import citizenship from "../data/citizenship.json"
 import countries from "../data/countries.json"
@@ -14,14 +14,32 @@ const Booking: React.FC = () => {
     const handleChange = (e: React.ChangeEvent<HTMLSelectElement | HTMLInputElement>) => {
         const { name, value } = e.target;
 
+        if (name === "dropdown") {
+            setSelected(value);
+            localStorage.setItem("selectedCitizenship", value.toString());
+            console.log("Citizenship localStorage:", localStorage.getItem("selectedCitizenship"));
+        }
+
         if (name === "country") {
             setCountry(value);
-        } else if (name === "dropdown") {
-            setSelected(value);
-        } else if (name === "myOption") {
+            localStorage.setItem("selectedCountry", value.toString());
+            console.log("Country localStorage:", localStorage.getItem("selectedCountry"));
+        }
+
+        if (name === "myOption") {
             setSelectedOption(value);
+            localStorage.setItem("selectedBoard", value.toString());
+            console.log("Board localStorage:", localStorage.getItem("selectedBoard"));
         }
     };
+    
+    useEffect(() => {
+        localStorage.setItem("startDate", startDate);
+    }, [startDate]);
+
+    useEffect(() => {
+        localStorage.setItem("endDate", endDate);
+    }, [endDate]);
 
     return (
         <div className="booking">
@@ -81,11 +99,11 @@ const Booking: React.FC = () => {
                             <input
                                 type="radio"
                                 name="myOption"
-                                value={b.code} 
+                                value={b.code}
                                 checked={selectedOption === b.code}
                                 onChange={handleChange}
                             />
-                            {b.name} 
+                            {b.name}
                         </label>
                     </div>
                 ))}
