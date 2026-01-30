@@ -54,9 +54,9 @@ const Booking: React.FC = () => {
     return (
         <div className="booking">
             <div className="citizenship">
-                <label>Vətəndaşlığı seçin:</label>
+                <label>Vətəndaşlığı:</label>
                 <select name="dropdown" value={selected} onChange={handleChange} className={errors.citizenship ? "error" : ""}>
-                    <option value="">-- Seçin --</option>
+                    <option value="">Seçin</option>
                     {citizenship.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
                 </select>
             </div>
@@ -64,28 +64,28 @@ const Booking: React.FC = () => {
             <div className="select-country">
                 <label>Ölkəni seçin:</label>
                 <select name="country" value={country} onChange={handleChange} className={errors.country ? "error" : ""}>
-                    <option value="">-- Seçin --</option>
+                    <option value="">Seçin</option>
                     {countries.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
                 </select>
             </div>
 
             <div className="date">
-                <label>Başlanğıc tarix:</label>
+                <label>Gediş tarixi:</label>
                 <input type="date" value={startDate} onChange={e => setStartDate(e.target.value)} className={errors.startDate ? "error" : ""} />
-                <label>Son tarix:</label>
+                <label>Qayıdış tarixi:</label>
                 <input type="date" value={endDate} min={startDate} onChange={e => setEndDate(e.target.value)} className={errors.endDate ? "error" : ""} />
             </div>
 
             <div className="board-choose">
                 {boardTypes.map(b => (
                     <label key={b.code}>
-                        <input type="radio" name="myOption" value={b.code} checked={selectedOption === b.code} onChange={handleChange} />
+                        <input type="radio" name="myOption" value={b.code} checked={selectedOption === b.code} onChange={handleChange} className="board-choose-input" />
                         {b.name}
                     </label>
                 ))}
             </div>
 
-            <button onClick={handleSave}>Yadda saxla</button>
+            <button onClick={handleSave} className="button">Yadda saxla</button>
         </div>
     );
 };

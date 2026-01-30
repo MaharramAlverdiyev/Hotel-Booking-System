@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { saveHotelSelection } from "../store/hotelsDailySlice";
 import hotelsData from "../data/hotels.json";
 import mealsData from "../data/meals.json";
+import "../styles/hotelsdaily.css"
 
 interface DaySelection {
     date: string;
@@ -36,7 +37,7 @@ const HotelsDaily: React.FC = () => {
         setSelections(dates.map(date => ({ date, hotelId: "", lunchId: "", dinnerId: "" })));
     }, [booking]);
 
-    if (!booking) return <p>Əvvəl booking məlumatlarını seçin</p>;
+    if (!booking) return;
 
     const { country, board } = booking;
     const boardCode = board?.code;
@@ -92,88 +93,88 @@ const HotelsDaily: React.FC = () => {
     };
 
     return (
-        <div style={{ padding: 20 }}>
-            <h2>Səyahətiniz</h2>
-            <p>
-                Tarix aralığı: {booking.startDate} – {booking.endDate}
-            </p>
-            <table border={1} cellPadding={8}>
-                <thead>
-                    <tr>
-                        <th>Gün</th>
-                        <th>Otel</th>
-                        <th>Nahar</th>
-                        <th>Şam</th>
-                        <th>Otel ($)</th>
-                        <th>Yemək ($)</th>
-                        <th>Total ($)</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {selections.map((sel, index) => {
-                        const selectedHotel = availableHotels.find(h => h.id === sel.hotelId);
-                        const lunchPrice =
-                            sel.lunchId && countryMeals?.lunch.find(l => l.id === sel.lunchId)?.price
-                                ? countryMeals.lunch.find(l => l.id === sel.lunchId)!.price
-                                : 0;
-                        const dinnerPrice =
-                            sel.dinnerId && countryMeals?.dinner.find(d => d.id === sel.dinnerId)?.price
-                                ? countryMeals.dinner.find(d => d.id === sel.dinnerId)!.price
-                                : 0;
+        <div className="hoteldaily">
+            <h2>Səyahətiniz üçün hotel və yemək seçimlərini edin !</h2>
+            <div className="scrollable-table">
+                <table cellPadding={7} className="scrollable-table">
+                    <thead>
+                        <tr>
+                            <th>Gün</th>
+                            <th>Otel</th>
+                            <th>Nahar</th>
+                            <th>Şam</th>
+                            <th>Otel ($)</th>
+                            <th>Yemək ($)</th>
+                            <th>Total ($)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {selections.map((sel, index) => {
+                            const selectedHotel = availableHotels.find(h => h.id === sel.hotelId);
+                            const lunchPrice =
+                                sel.lunchId && countryMeals?.lunch.find(l => l.id === sel.lunchId)?.price
+                                    ? countryMeals.lunch.find(l => l.id === sel.lunchId)!.price
+                                    : 0;
+                            const dinnerPrice =
+                                sel.dinnerId && countryMeals?.dinner.find(d => d.id === sel.dinnerId)?.price
+                                    ? countryMeals.dinner.find(d => d.id === sel.dinnerId)!.price
+                                    : 0;
 
-                        return (
-                            <tr key={sel.date}>
-                                <td>{sel.date}</td>
-                                <td>
-                                    <select
-                                        value={sel.hotelId}
-                                        onChange={e => handleHotelChange(index, Number(e.target.value))}
-                                    >
-                                        <option value="">-- Seçin --</option>
-                                        {availableHotels.map(h => (
-                                            <option key={h.id} value={h.id}>
-                                                {h.name}
-                                            </option>
-                                        ))}
-                                    </select>
-                                </td>
-                                <td>
-                                    <select
-                                        value={sel.lunchId}
-                                        onChange={e => handleLunchChange(index, Number(e.target.value))}
-                                        disabled={boardCode === "NB" || (boardCode === "HB" && sel.activeMeal === "dinner")}
-                                    >
-                                        <option value="">-- Seçin --</option>
-                                        {countryMeals?.lunch.map(l => (
-                                            <option key={l.id} value={l.id}>
-                                                {l.name}
-                                            </option>
-                                        ))}
-                                    </select>
-                                </td>
-                                <td>
-                                    <select
-                                        value={sel.dinnerId}
-                                        onChange={e => handleDinnerChange(index, Number(e.target.value))}
-                                        disabled={boardCode === "NB" || (boardCode === "HB" && sel.activeMeal === "lunch")}
-                                    >
-                                        <option value="">-- Seçin --</option>
-                                        {countryMeals?.dinner.map(d => (
-                                            <option key={d.id} value={d.id}>
-                                                {d.name}
-                                            </option>
-                                        ))}
-                                    </select>
-                                </td>
-                                <td>{selectedHotel ? selectedHotel.price.toFixed(2) : "0.00"}</td>
-                                <td>{(lunchPrice + dinnerPrice).toFixed(2)}</td>
-                                <td>{((selectedHotel ? selectedHotel.price : 0) + lunchPrice + dinnerPrice).toFixed(2)}</td>
-                            </tr>
-                        );
-                    })}
-                </tbody>
-            </table>
-            <button style={{ marginTop: 12 }} onClick={handleSave}>
+                            return (
+                                <tr key={sel.date}>
+                                    <td data-label="Gün">{sel.date}</td>
+                                    <td data-label="Otel">
+                                        <select
+                                            value={sel.hotelId}
+                                            onChange={e => handleHotelChange(index, Number(e.target.value))}
+                                        >
+                                            <option value="">-- Seçin --</option>
+                                            {availableHotels.map(h => (
+                                                <option key={h.id} value={h.id}>
+                                                    {h.name}
+                                                </option>
+                                            ))}
+                                        </select>
+                                    </td>
+                                    <td data-label="Nahar">
+                                        <select
+                                            value={sel.lunchId}
+                                            onChange={e => handleLunchChange(index, Number(e.target.value))}
+                                            disabled={boardCode === "NB" || (boardCode === "HB" && sel.activeMeal === "dinner")}
+                                        >
+                                            <option value="">-- Seçin --</option>
+                                            {countryMeals?.lunch.map(l => (
+                                                <option key={l.id} value={l.id}>
+                                                    {l.name}
+                                                </option>
+                                            ))}
+                                        </select>
+                                    </td>
+                                    <td data-label="Şam">
+                                        <select
+                                            value={sel.dinnerId}
+                                            onChange={e => handleDinnerChange(index, Number(e.target.value))}
+                                            disabled={boardCode === "NB" || (boardCode === "HB" && sel.activeMeal === "lunch")}
+                                        >
+                                            <option value="">-- Seçin --</option>
+                                            {countryMeals?.dinner.map(d => (
+                                                <option key={d.id} value={d.id}>
+                                                    {d.name}
+                                                </option>
+                                            ))}
+                                        </select>
+                                    </td>
+                                    <td data-label="Otel ($)">{selectedHotel ? selectedHotel.price.toFixed(2) : "0.00"}</td>
+                                    <td data-label="Yemək ($)">{(lunchPrice + dinnerPrice).toFixed(2)}</td>
+                                    <td data-label="Total ($)">{((selectedHotel ? selectedHotel.price : 0) + lunchPrice + dinnerPrice).toFixed(2)}</td>
+                                </tr>
+                            );
+                        })}
+                    </tbody>
+                </table>
+
+            </div>
+            <button onClick={handleSave} className="buttonn">
                 Yadda saxla
             </button>
         </div>

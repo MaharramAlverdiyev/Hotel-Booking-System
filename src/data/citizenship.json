@@ -1,8 +1,4 @@
 [
   { "id": 1, "name": "Turkey" },
-  { "id": 2, "name": "UAE" },
-  { "id": 3, "name": "Italy" },
-  { "id": 4, "name": "Azerbaijan" },
-  { "id": 5, "name": "Germany" },
-  { "id": 6, "name": "USA" }
+  { "id": 2, "name": "Azerbaijan" }
 ]

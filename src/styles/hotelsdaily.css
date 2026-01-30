@@ -1,0 +1,97 @@
+th {
+    background-color: rgb(87, 48, 12);
+    color: white;
+    padding: 8px;
+}
+
+td {
+    border: 1px solid rgb(87, 48, 12);
+    padding: 6px 8px;
+}
+
+table {
+    border: 1px solid rgb(87, 48, 12);
+    border-radius: 12px;
+    border-collapse: collapse;
+    width: 100%;
+    font-size: 14px;
+}
+
+select {
+    width: 160px;
+    height: 36px;
+    border-radius: 8px;
+    font-size: 14px;
+}
+
+option {
+    border-radius: 8px;
+}
+
+.buttonn {
+    background-color: dodgerblue;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 12px;
+    border: none;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.scrollable-table {
+    max-height: 300px;
+    overflow-y: auto;
+    border-radius: 12px;
+}
+
+
+@media (max-width: 768px) {
+
+    table,
+    thead,
+    tbody,
+    th,
+    tr,
+    td {
+        display: block;
+        width: auto;
+    }
+
+    thead {
+        display: none;
+    }
+
+    tr {
+        margin-bottom: 10px;
+        border: 1px solid #c8a06a;
+        border-radius: 10px;
+        background: #fdeccf;
+        padding: 8px;
+    }
+
+    td {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 4px 0;
+        border: none;
+    }
+
+    td::before {
+        content: attr(data-label);
+        font-weight: 600;
+        color: #5a3a1a;
+        padding-right: 6px;
+        white-space: nowrap;
+        flex: 1;
+    }
+
+    select {
+        width: 55%;
+        height: 40px;
+        font-size: 14px;
+    }
+    table{
+        width: 90%;
+    }
+}
