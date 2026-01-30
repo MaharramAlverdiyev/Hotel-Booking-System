@@ -1,7 +1,10 @@
-import React from 'react'
+// import React from 'react'
 
-export const HotelsDaily = () => {
-  return (
-    <div>HotelsDaily</div>
-  )
-}
+
+// const HotelsDaily = () => {
+//   return (
+//     <div>HotelsDaily</div>
+//   )
+// }
+
+// export default HotelsDaily

@@ -1,5 +1,46 @@
-.booking-hotel{
+.citizenship{
     display: flex;
-    gap: 30px;
+    gap: 5px;
     padding: 20px;
+    align-items: center;
+}
+
+.booking{
+    display: flex;
+    align-items: center;
+}
+
+.date{
+    display: flex;
+    align-items: center;
+    gap: 15px ;
+    padding: 20px;
+}
+
+.date .date-start, .date-end{
+    display: flex;
+    gap: 5px; 
+    align-items: center;
+}
+
+.select-country{
+    display: flex;
+    gap: 5px;
+    align-items: center;
+}
+.select-country select , .citizenship select{
+    border-radius: 10px;  
+}
+.booking select{
+    padding: 10px;
+}
+
+.board-choose{
+    display: flex;
+    gap: 10px;
+}
+.date input{
+    padding: 5px;
+    font-size: 18px;
+    border-radius: 10px;
 }

@@ -1,0 +1,5 @@
+[
+  { "code": "FB", "name": "Tam pansiyon" },
+  { "code": "HB", "name": "Yarı pansiyon" },
+  { "code": "NB", "name": "Pansiyonsuz" }
+]
